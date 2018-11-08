@@ -3,7 +3,7 @@
 int main(){
 initscr();
 raw();
-printw("hello");
+printw("hello world");
 getch();
 endwin();
 
