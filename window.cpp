@@ -90,7 +90,7 @@ void Window::print(int x, int y, char s) const{
   mvwaddch(win,y,x,s);
   update();  
 }
-
+WINDOW* Window::getwin() const {return win;}
 
 int Window::getX() const { return startx;} 
 int Window::getY() const { return starty;} 

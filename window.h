@@ -62,7 +62,7 @@ class Window {
   int getY() const;        // récupère l'ordonnée du coin supérieur gauche de la fenêtre 
   int getHauteur() const ; // récupère la hauteur de la fenêtre
   int getLargeur() const ; // récupère la largeur de la fenêtre
-
+  WINDOW* getwin() const;
   Color getCouleurBordure() const; // récupère la couleur de la bordure
   Color getCouleurFenetre() const; // récupère la couleur de la fenêtre
   void setCouleurBordure(Color);   // modifie la couleur de la bordure
