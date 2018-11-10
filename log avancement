@@ -1,4 +1,6 @@
 S'occuper d'abord de bille + briques (faire classes pour chaque)
-plus tard, s'occuper d'un plateau, contenant des briques, une bille, un score, un joueur ... 
+plus tard, s'occuper d'un plateau de jeu, contenant des briques, une bille, un score, un joueur ... 
 plateau créé après lecture du command file (disposition briques, nom du joueur ...)
 bille envoie instruction au choc (frappe brique, envoie position à méthode qui baisse PV de brique)
+félix fait bille, leif plateau, il faut faire briques (attention, hitbox des briques dépendent de longueur/largeur)
+bille : sait rebondir, sait envoyer info si choc, sait envoyer info si tombée.
