@@ -18,7 +18,7 @@ void myprogram(){
   plateau.print(x,y,p,col);
 
   char c  = '0';
-  platf pla1(5, x , y ,c);
+  platf pla1(8, x , h-1 ,c);
   pla1.print(plateau.getwin());
   
   while((ch = getch()) != 'q')
@@ -48,8 +48,10 @@ void myprogram(){
       case KEY_LEFT:
 	//	plateau.print(x,y,' ');
 	//	plateau.print(--x,y,p,col);
-pla1.printVide(plateau.getwin());
+	pla1.printVide(plateau.getwin());
+	if( pla1.contactmurG(w)) {
 	pla1.setx(--x);
+	}
 	pla1.print(plateau.getwin());
 
 	break;
@@ -57,7 +59,9 @@ pla1.printVide(plateau.getwin());
 	//	plateau.print(x,y,' ');
 	// plateau.print(++x,y,p,col);
 	pla1.printVide(plateau.getwin());
+	if( pla1.contactmurD(w)) {
 	pla1.setx(++x);
+	}
 	pla1.print(plateau.getwin());
 	break;
       case '\n':
