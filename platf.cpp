@@ -7,6 +7,14 @@ int platf::getlongr() const {return longeur;}
 int platf::getx() const {return posx;}
 int platf::gety() const {return posy;}
 char platf::getcorp() const {return corp;}
+bool platf::contactmurG(int w) const {
+  //w = with window
+  return posx > 0 ;
+}
+bool platf::contactmurD(int w) const {
+  //w = with window
+  return (posx+longeur < w);
+}
 
 void platf::setlongeur(int longr){longeur = longr;}
 void platf::setx(int x){posx = x;}

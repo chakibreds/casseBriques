@@ -22,8 +22,12 @@ class platf{
   int getx() const;
   int gety() const;
   char getcorp() const;
+  bool contactmurG(int w ) const;
+  bool contactmurD(int w ) const;
   
   void print(WINDOW* w) const;
+
+  //pour enlever l'ancien platf
   void printVide(WINDOW* w)const;
   
   void setx(int x);
