@@ -21,7 +21,7 @@ void options::setLongJeu(int x){longeurPlatf = x;}
 
 void options::menu() {
   //meter un char en el .h
-  Window menu(hauteurJeu , longeurJeu , 0 , 0 , 0);
+  Window menu(hauteurJeu-2 , longeurJeu-2 , 0 , 0 , 0);
   menu.keypadon();
 
   //    y  x
@@ -83,16 +83,16 @@ void options::menu() {
 	     switch(j)
 	       {
 	       case 0:
-		 mvwprintw( menu.getwin() , i+1 , j+1 , T[i][j].c_str());
+		 mvwprintw( menu.getwin() , (hauteurJeu/2)+i ,(longeurJeu/2)+j , T[i][j].c_str());
 		 wattroff(menu.getwin() , A_REVERSE);
 		 break;
 	       case 1:
 		 //4 car "<--" = 4
-		 mvwprintw( menu.getwin() , i+1 , 4 , T[i][j].c_str());
+		 mvwprintw( menu.getwin() , (hauteurJeu/2)+i ,(longeurJeu/2)+3 , T[i][j].c_str());
 		 wattroff(menu.getwin() , A_REVERSE);
 		 break;
 	       case 2:
-		 mvwprintw( menu.getwin() , i+1 , 4+choices[i].length() , T[i][j].c_str());
+		 mvwprintw( menu.getwin() , (hauteurJeu/2)+i ,(longeurJeu/2)+3+choices[i].length() , T[i][j].c_str());
 		 wattroff(menu.getwin() , A_REVERSE);
 		 break;
 	       }
@@ -188,6 +188,7 @@ void options::menu() {
 	      }
 	    }
 	}
+      werase(menu.getwin());
       if(choice == 10){
 	if(highlight == 4)
 	  break;

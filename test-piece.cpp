@@ -8,14 +8,17 @@ void jeu(options opt){
   int ch;
   int h=opt.getH(),w=opt.getL();
   
-  Window menu(opt.getH()-2,(opt.getL()/2),(opt.getL()/2)+2,0,0);
+  Window menu((opt.getH()/2)-2,(opt.getL()/2)-2,(opt.getL()/2),0,0);
   Window plateau(opt.getH()-2,(opt.getL()/2)-2,0,0,0);
+  Window infoJouer((opt.getH()/2)-2,(opt.getL()/2)-2,(opt.getL()/2),opt.getH()/2,0);
 
   menu.setCouleurBordure(BRED);
   plateau.setCouleurBordure(BBLUE);
+  infoJouer.setCouleurBordure(BYELLOW);
   
   menu.print(1,1,"Tapez q pour quitter !!!",WRED);
-  
+  infoJouer.print(1,1,"Les infos du jouer sont ici :)",WCYAN);
+
   int x=plateau.getLargeur()/2,y=plateau.getHauteur()-3;
   char p='X';
   Color col=WBLUE;
@@ -53,7 +56,7 @@ void jeu(options opt){
 	//	plateau.print(x,y,' ');
 	//	plateau.print(--x,y,p,col);
 	pla1.printVide(plateau.getwin());
-	if( pla1.contactmurG(w)) {
+	if( pla1.contactmurG(plateau.getLargeur())) {
 	pla1.setx(--x);
 	}
 	pla1.print(plateau.getwin());
@@ -63,7 +66,7 @@ void jeu(options opt){
 	//	plateau.print(x,y,' ');
 	// plateau.print(++x,y,p,col);
 	pla1.printVide(plateau.getwin());
-	if( pla1.contactmurD(w)) {
+	if( pla1.contactmurD(plateau.getLargeur())) {
 	pla1.setx(++x);
 	}
 	pla1.print(plateau.getwin());
@@ -121,7 +124,7 @@ void myprogram(){
 	{
 	  if(i==highlight)
 	    wattron(mainmenu.getwin() , A_REVERSE);
-	  mvwprintw(mainmenu.getwin() , i+1 , 1 , choices[i].c_str());
+	  mvwprintw(mainmenu.getwin() , (opt.getH()/2)+i , (opt.getL()/2)-2 , choices[i].c_str());
 	  wattroff(mainmenu.getwin() , A_REVERSE);
 	}
       choice = wgetch(mainmenu.getwin());
@@ -159,6 +162,7 @@ void myprogram(){
 	      
 	    }
 	}
+      werase(mainmenu.getwin());
       if(choice == 10){
 	if(highlight == 2)
 	  break;
