@@ -6,23 +6,23 @@
 void jeu(options opt){
   
   int ch;
-  int h=10,w=50;
+  int h=opt.getH(),w=opt.getL();
   
-  Window menu(3,30,opt.getL()+2,0);
-  Window plateau(opt.getH(),opt.getL(),0,0);
+  Window menu(opt.getH()-2,(opt.getL()/2),(opt.getL()/2)+2,0,0);
+  Window plateau(opt.getH()-2,(opt.getL()/2)-2,0,0,0);
 
   menu.setCouleurBordure(BRED);
   plateau.setCouleurBordure(BBLUE);
   
   menu.print(1,1,"Tapez q pour quitter !!!",WRED);
   
-  int x=w/2,y=h/2;
+  int x=plateau.getLargeur()/2,y=plateau.getHauteur()-3;
   char p='X';
   Color col=WBLUE;
   plateau.print(x,y,p,col);
 
-  char c  = '-';
-  platf pla1(opt.getLongPla(), x , h-1 ,c);
+  char c  =  '-';
+  platf pla1(opt.getLongPla(), x ,y ,c);
   pla1.print(plateau.getwin());
   
   while((ch = getch()) != 'q')
@@ -79,38 +79,52 @@ void jeu(options opt){
 	break;
       }
     }
-  menu.clear();
+
   
-  plateau.clear();
+  
 
 }
 
 void myprogram(){
+
   options opt;
-  
-  WINDOW * mainmenu = newwin(opt.getH(),opt.getL(),0,0);
-  //mainmenu.setCouleurBordure(BBLUE);
-  box(mainmenu  ,0 , 0);
-  refresh();
-  wrefresh(mainmenu);
-  
-  keypad(mainmenu,true);
+
+  Window mainmenu(opt.getH()-2 , opt.getL()-2 , 0 , 0 , 0);
+  std::string h = std::to_string(opt.getH());
+  mainmenu.print(0 , 0 , h);
+  std::string w = std::to_string(opt.getL());
+  mainmenu.print(20 , 0 , w);
+  /*
+    WINDOW * mainmenu = newwin(opt.getH(),opt.getL(),0,0);
+    //mainmenu.setCouleurBordure(WBLACK);
+    box(mainmenu  ,0 , 0);
+    refresh();
+    wrefresh(mainmenu);
+    keypad(mainmenu,true);
+  */
   
   std::string choices[3] = {"Jeu","Options","Exit"};
 
   int choice;
   int highlight = 0;
+  mainmenu.keypadon();
+
+
+  //----------------------------MENU-FIN--------------------------------//
 
   while(1)
     {
+      //   box(mainmenu  ,0 , 0);
+      mainmenu.updateframe();
+      
       for(int i = 0 ; i<3 ; i++)
 	{
 	  if(i==highlight)
-	    wattron(mainmenu , A_REVERSE);
-	  mvwprintw(mainmenu , i+1 , 1 , choices[i].c_str());
-	  wattroff(mainmenu , A_REVERSE);
+	    wattron(mainmenu.getwin() , A_REVERSE);
+	  mvwprintw(mainmenu.getwin() , i+1 , 1 , choices[i].c_str());
+	  wattroff(mainmenu.getwin() , A_REVERSE);
 	}
-      choice = wgetch(mainmenu);
+      choice = wgetch(mainmenu.getwin());
       
       switch(choice)
 	{
@@ -124,10 +138,10 @@ void myprogram(){
 	  if (highlight == 3)
 	    highlight = 2;
 	  break;
-
+	  
 	default:
 	  break;
-
+	  
 	}
       
       if(choice == 10)
@@ -142,14 +156,18 @@ void myprogram(){
 	      break;
 	    case 2:
 	      break;
-	    
+	      
 	    }
 	}
       if(choice == 10){
 	if(highlight == 2)
 	  break;
       }
+      
     }
+  
+  //----------------------------MENU-FIN--------------------------------//
+
 }
 
 int main(){

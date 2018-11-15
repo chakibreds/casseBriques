@@ -49,7 +49,7 @@ void Window::update() const{
 Window::Window(int h,int w, int x, int y, char c)
   : height(h), width(w), startx(x), starty(y), bord(c)
 {
-  colorwin=WCYAN;
+  colorwin=WBLACK;
   colorframe=WBLACK;
   frame=newwin(h+2,w+2,y,x);
   win=subwin(frame,h,w,y+1,x+1);
@@ -91,6 +91,9 @@ void Window::print(int x, int y, char s) const{
   update();  
 }
 WINDOW* Window::getwin() const {return win;}
+WINDOW* Window::getframe() const {return frame;}
+
+void Window::updateframe() const {char c = bord;  wborder(frame, c,c,c,c,c,c,c,c); update();}
 
 int Window::getX() const { return startx;} 
 int Window::getY() const { return starty;} 
@@ -98,6 +101,9 @@ int Window::getHauteur() const { return height;}
 int Window::getLargeur() const { return width;}  
 Color Window::getCouleurBordure() const{ return colorframe;}
 Color Window::getCouleurFenetre() const{ return colorwin;}
+void Window::keypadon() const{ keypad(win , true); }
+
+
 void Window::setCouleurBordure(Color c){
   colorframe=c;
   wattron(frame,COLOR_PAIR(colorframe));

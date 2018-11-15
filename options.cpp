@@ -1,7 +1,13 @@
 #include "options.h"
 #include "window.h"
-
-options::options() : hauteurJeu(10) , longeurJeu(50) , longeurPlatf(8){}
+//hauteurJeu(10) , longeurJeu(50) , longeurPlatf(8)
+options::options(){
+  int x, y;
+  getmaxyx(stdscr,y,x);
+  hauteurJeu = y;
+  longeurJeu = x;
+  longeurPlatf = 8;
+}
 
 options::options(int h , int l , int longp) : hauteurJeu(h), longeurJeu(l) , longeurPlatf(longp){}
 
@@ -13,42 +19,51 @@ void options::setHauteurJeu(int x){hauteurJeu = x;}
 void options::setLongPla(int x){longeurJeu = x;}
 void options::setLongJeu(int x){longeurPlatf = x;}
 
-
-
-
-
-
-
-
-
-
-
-
-
 void options::menu() {
   //meter un char en el .h
-  Window menu(hauteurJeu , longeurJeu , 0 , 0 , '*');
-  keypad(menu.getwin(),true);
+  Window menu(hauteurJeu , longeurJeu , 0 , 0 , 0);
+  menu.keypadon();
+
   //    y  x
   std::string T[5][3];
-  std::string choices[5] = {"option 1","option 2","option 3","longeur plataforme","exit"};
-
+  std::string choices[5] = {"option 1","Longeur fenetre","Hauteur fenetre","longeur plataforme","Exit"};
+  
   
   for(int i = 0 ; i<5 ; i++)
     {
+      
       for(int j = 0 ; j<3 ; j++)
 	{
-	  switch(j)
+	  
+	  if(! (i==4))
 	    {
-	    case 0:
-	      T[i][j] = "<--";
-	      break;
-	    case 1:
-	      T[i][j] = choices[i];
-	      break;
-	    case 2:
-	      T[i][j] = "-->";
-	      break;
+	      switch(j)
+		{
+		case 0:
+		  T[i][j] = "<--";
+		  break;
+		case 1:
+		  T[i][j] = choices[i];
+		  break;
+		case 2:
+		  T[i][j] = "-->";
+		  break;
+		}
+	    }
+	  else
+	    {
+	      switch(j)
+		{
+		case 0:
+		  T[i][j] = "---";
+		  break;
+		case 1:
+		  T[i][j] = choices[i];
+		  break;
+		case 2:
+		  T[i][j] = "---";
+		  break;
+		}  
 	    }
 	}
       
@@ -61,7 +76,7 @@ void options::menu() {
       for(int i = 0 ; i<5 ; i++)
 	{
 	  for(int j = 0 ; j<3 ; j++)
-	   {
+	    {
 	     if(i==highlight && j == highlight2)
 	       wattron(menu.getwin() , A_REVERSE);
 
@@ -84,8 +99,8 @@ void options::menu() {
 	   }
 	  
 	}
-
-
+      
+      
 
       
       choice = wgetch(menu.getwin());
@@ -124,23 +139,53 @@ void options::menu() {
 	    case 0:
 	      break;
 	    case 1:
-	      break;
+	      {
+		menu.print(0 , 0 , "longeur");
+		switch(highlight2)
+		  {
+		  case 0:
+		    longeurJeu=longeurJeu-1;
+		    break;
+		  case 1:
+		    break;
+		  case 2:
+		    longeurJeu=longeurJeu+1;
+		    break;
+		  }
+		break;
+	      }
 	    case 2:
-	      break;
+	      {
+		menu.print(1 , 6 , "hauteur");
+		switch(highlight2)
+		  {
+		  case 0:
+		    hauteurJeu=hauteurJeu-1;
+		    break;
+		  case 1:
+		    break;
+		  case 2:
+		    hauteurJeu=hauteurJeu+1;
+		    break;
+		  }
+		break;
+	      }
 	    case 3:
-	      switch(highlight2)
-		{
-		case 0:
-		  longeurPlatf=longeurPlatf-1;
-		  break;
-		case 1:
-		  break;
-		case 2:
-		  longeurPlatf = longeurPlatf+1;
-		  break;
-		
-		  
-		}
+	      {
+		menu.print(2 , 9 , "longeurplat");
+		switch(highlight2)
+		  {
+		  case 0:
+		    longeurPlatf=longeurPlatf-1;
+		    break;
+		  case 1:
+		    break;
+		  case 2:
+		    longeurPlatf = longeurPlatf+1;
+		    break;
+		  }
+		break;
+	      }
 	    }
 	}
       if(choice == 10){
@@ -148,7 +193,7 @@ void options::menu() {
 	  break;
       }
     }
- 
-
-
+  
+  
+  
 }

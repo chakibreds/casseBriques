@@ -65,7 +65,11 @@ class Window {
 
   //pour print platfr
   WINDOW* getwin() const;
+  WINDOW* getframe() const;
 
+  //pour menus
+  void keypadon() const;
+  void updateframe() const;
   
   Color getCouleurBordure() const; // récupère la couleur de la bordure
   Color getCouleurFenetre() const; // récupère la couleur de la fenêtre
