@@ -27,7 +27,7 @@ void jeu(options opt){
   plateau.print(x,y,p,col);
 
   char c  =  '-';
-  platf pla1(opt.getLongPla(), x ,y ,c);
+  platf pla1(opt.getLongPla(), x-3 ,y ,c);
   pla1.print(plateau.getwin());
 
   Brique bri;
@@ -66,7 +66,7 @@ void jeu(options opt){
 	    pla1.setx(--x);
 	  }
 	  pla1.print(plateau.getwin());
-	  bri.printvide(plateau.getwin());
+	  bri.printVide(plateau.getwin());
 	  
 	  break;
 	case KEY_RIGHT:

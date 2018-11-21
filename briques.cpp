@@ -3,11 +3,11 @@
 #include "briques.h"
 using namespace std; 
 
-Brique::Brique():corp(' '),L(2),l(10),x(0),y(0),resistance(0)
+Brique::Brique():corp(' '),couleur(WRED),L(2),l(10),x(0),y(0),resistance(2)
 {
 
 } 
-Brique::Brique(char corp,int y, int x , int L, int l,int resistance):corp(corp),L(L),l(l),x(x),y(y),resistance(resistance)
+Brique::Brique(char corp,Color couleur,int y, int x , int L, int l,int resistance):corp(corp),couleur(couleur),L(L),l(l),x(x),y(y),resistance(resistance)
 {
 cout<< "construction de brique par un constructeur par parametres"<<endl;
 }
@@ -53,16 +53,20 @@ y=b.y;
 
 	void Brique::printBrique(WINDOW *w)
 	{
+
+	  if(resistance==1) couleur=WYELLOW;
+	  if(resistance==3) couleur=WRED;
+	  if(resistance==2) couleur=WGREEN;
 		std::string s(l,corp);
-		for(int i = 0 ; i<L ; i++){
-		  wattron(w , A_REVERSE);
+			for(int i = 0 ; i<L ; i++){
+		  wattron(w ,COLOR_PAIR(couleur));
 		  mvwprintw(w,y+i,x,s.c_str());
-		  wattroff(w , A_REVERSE);
+		  wattroff(w ,COLOR_PAIR(couleur));
 		}
   		wrefresh(w);
   		refresh();
 	}
-	void Brique::printvide(WINDOW *w)
+	void Brique::printVide(WINDOW *w)
 	{
 	  	std::string s(l,' ');
 		for(int i = 0 ; i<L ; i++){
