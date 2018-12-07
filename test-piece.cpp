@@ -3,38 +3,59 @@
 #include "options.h"
 #include <ncurses.h>
 #include <string>
+#include <cstdlib>
 #include"briques.h"
+#include "tableauBriques.h"
 
 void jeu(options opt){
   
-  int ch;
+  int ch; //ch = char clavier
   int h=opt.getH(),w=opt.getL();
-  
-  Window menu((opt.getH()/2)-2,(opt.getL()/2)-2,(opt.getL()/2),0,0);
-  Window plateau(opt.getH()-2,(opt.getL()/2)-2,0,0,0);
-  Window infoJouer((opt.getH()/2)-2,(opt.getL()/2)-2,(opt.getL()/2),opt.getH()/2,0);
 
+  //creation de fenetres
+
+  //W(hauteur , longeur , posX , posY , bord?)
+  Window menu((opt.getH()/2)-2,(opt.getL()/3)-1,(opt.getL()/(1.5)),0,0);
+  Window plateau(opt.getH()-2,(opt.getL()/(1.5))-2,0,0,0);
+  Window infoJouer((opt.getH()/2)-2,(opt.getL()/3)-1,(opt.getL()/(1.5)),opt.getH()/2,0);
+
+  //changer les couleurs des bords
   menu.setCouleurBordure(BRED);
   plateau.setCouleurBordure(BBLUE);
   infoJouer.setCouleurBordure(BYELLOW);
-  
+
+  //text static dans les fenetres
   menu.print(1,1,"Tapez q pour quitter !!!",WRED);
   infoJouer.print(1,1,"Les infos du jouer sont ici :)",WCYAN);
 
+  //---------------------raquette Start------------------------//
+
+  //y=plateau.getHauteur()-3 = 3 pixel sur le sol
   int x=plateau.getLargeur()/2,y=plateau.getHauteur()-3;
-  char p='X';
-  Color col=WBLUE;
-  plateau.print(x,y,p,col);
 
+  //c = le char de la raquette
   char c  =  '-';
-  platf pla1(opt.getLongPla(), x-3 ,y ,c);
-  pla1.print(plateau.getwin());
 
-  Brique bri;
-  bri.printBrique(plateau.getwin());
+  //creation de la raquette
+  platf pla1(opt.getLongPla(), x ,y ,c);
+
+  //print de la raquete
+  pla1.print(plateau.getwin());
   
+  //--------------------raquette Fin---------------------------//
+
+  Color col=WBLUE;
+
+  //-----------------------creation tabBriques-----------------//
+  tableauBriques tab;
+  tab.printTableauBriques(plateau.getwin());
+  //-----------------------------fin creation-------------------//
+
+  
+  //----------------------boucle de jeu et controls--------------//
   while((ch = getch()) != 'q')
-    {    
+    {
+      //bri.printBrique(plateau.getwin());
       switch (ch)
 	{
 	case '1':
@@ -47,41 +68,30 @@ void jeu(options opt){
 	  plateau.clear();
 	  break;
 	case KEY_UP:
-	  //	plateau.print(x,y,' ');
-	  //plateau.print(x,--y,p,col);
-	  //pla1.sety(--y);
-	  //	pla1.print(plateau.getwin());
-	  
-	  
 	  break;
 	case KEY_DOWN:
-	  //	plateau.print(x,y,' ');
-	  //	plateau.print(x,++y,p,col);
 	  break;  
 	case KEY_LEFT:
-	  //	plateau.print(x,y,' ');
-	  //	plateau.print(--x,y,p,col);
+	  //mvt raquette
 	  pla1.printVide(plateau.getwin());
 	  if( pla1.contactmurG(plateau.getLargeur())) {
 	    pla1.setx(--x);
 	  }
 	  pla1.print(plateau.getwin());
-	  bri.printVide(plateau.getwin());
+	  
 	  
 	  break;
 	case KEY_RIGHT:
-	  //	plateau.print(x,y,' ');
-	  // plateau.print(++x,y,p,col);
+	  //mvt raquette
 	  pla1.printVide(plateau.getwin());
 	  if( pla1.contactmurD(plateau.getLargeur())) {
 	    pla1.setx(++x);
 	  }
 	  pla1.print(plateau.getwin());
-	break;
+	  break;
+
 	case '\n':
-	  x=w/2,y=h/2;
-	  plateau.print(x,y,p,col);
-	break;
+	  break;
 	case '\t':
 	  Color tmp= menu.getCouleurBordure();
 	  menu.setCouleurBordure(plateau.getCouleurBordure());
@@ -92,8 +102,8 @@ void jeu(options opt){
 	}
      
     }
-
   
+  //---------------------------finBoucle de jeu--------------------------//
   
 
 }
@@ -103,20 +113,15 @@ void myprogram(){
   options opt;
 
   Window mainmenu(opt.getH()-2 , opt.getL()-2 , 0 , 0 , 0);
+
+  //print la taille de la fenetre au debut
   std::string h = std::to_string(opt.getH());
   mainmenu.print(0 , 0 , h);
   std::string w = std::to_string(opt.getL());
-
   mainmenu.print(20 , 0 , w);
-  /*
-    WINDOW * mainmenu = newwin(opt.getH(),opt.getL(),0,0);
-    //mainmenu.setCouleurBordure(WBLACK);
-    box(mainmenu  ,0 , 0);
-    refresh();
-    wrefresh(mainmenu);
-    keypad(mainmenu,true);
-  */
-  
+
+
+  //les trois options du menu
   std::string choices[3] = {"Jeu","Options","Exit"};
 
   int choice;
@@ -124,18 +129,24 @@ void myprogram(){
   mainmenu.keypadon();
 
 
-  //----------------------------MENU-FIN--------------------------------//
+
+
+
+  
+  //----------------------------MENU-START--------------------------------//
 
   while(1)
     {
       //   box(mainmenu  ,0 , 0);
       mainmenu.updateframe();
+
       
       for(int i = 0 ; i<3 ; i++)
 	{
 	  if(i==highlight)
 	    wattron(mainmenu.getwin() , A_REVERSE);
-	  mvwprintw(mainmenu.getwin() , (opt.getH()/2)+i , (opt.getL()/2)-2 , choices[i].c_str());
+	  //print menu principal
+	  mvwprintw(mainmenu.getwin() , ((opt.getH()/(2)-2))+i , ((opt.getL()/(2))-4)-2 , choices[i].c_str());
 	  wattroff(mainmenu.getwin() , A_REVERSE);
 	}
       choice = wgetch(mainmenu.getwin());

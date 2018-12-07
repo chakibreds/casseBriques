@@ -2,10 +2,11 @@
 #include "window.h"
 //hauteurJeu(10) , longeurJeu(50) , longeurPlatf(8)
 options::options(){
-  int x, y;
-  getmaxyx(stdscr,y,x);
-  hauteurJeu = y;
-  longeurJeu = x;
+  //int x, y;
+  //getmaxyx(stdscr,y,x);
+  //on va faire static
+  hauteurJeu = 24;
+  longeurJeu = 80;
   longeurPlatf = 8;
 }
 
@@ -19,6 +20,9 @@ void options::setHauteurJeu(int x){hauteurJeu = x;}
 void options::setLongPla(int x){longeurJeu = x;}
 void options::setLongJeu(int x){longeurPlatf = x;}
 
+
+
+//le menu d'options
 void options::menu() {
   //meter un char en el .h
   Window menu(hauteurJeu-2 , longeurJeu-2 , 0 , 0 , 0);
@@ -26,7 +30,7 @@ void options::menu() {
 
   //    y  x
   std::string T[5][3];
-  std::string choices[5] = {"option 1","Longeur fenetre","Hauteur fenetre","longeur plataforme","Exit"};
+  std::string choices[5] = {"option 1","option 1","option 1","longeur plataforme","Exit"};
   
   
   for(int i = 0 ; i<5 ; i++)
@@ -83,16 +87,16 @@ void options::menu() {
 	     switch(j)
 	       {
 	       case 0:
-		 mvwprintw( menu.getwin() , (hauteurJeu/2)+i ,(longeurJeu/2)+j , T[i][j].c_str());
+		 mvwprintw( menu.getwin() , (hauteurJeu/(2.5))+i ,(longeurJeu/(2.5))+j , T[i][j].c_str());
 		 wattroff(menu.getwin() , A_REVERSE);
 		 break;
 	       case 1:
 		 //4 car "<--" = 4
-		 mvwprintw( menu.getwin() , (hauteurJeu/2)+i ,(longeurJeu/2)+3 , T[i][j].c_str());
+		 mvwprintw( menu.getwin() , (hauteurJeu/(2.5))+i ,(longeurJeu/(2.5))+3 , T[i][j].c_str());
 		 wattroff(menu.getwin() , A_REVERSE);
 		 break;
 	       case 2:
-		 mvwprintw( menu.getwin() , (hauteurJeu/2)+i ,(longeurJeu/2)+3+choices[i].length() , T[i][j].c_str());
+		 mvwprintw( menu.getwin() , (hauteurJeu/(2.5))+i ,(longeurJeu/(2.5))+3+choices[i].length() , T[i][j].c_str());
 		 wattroff(menu.getwin() , A_REVERSE);
 		 break;
 	       }
@@ -140,32 +144,32 @@ void options::menu() {
 	      break;
 	    case 1:
 	      {
-		menu.print(0 , 0 , "longeur");
+		menu.print(0 , 0 , "option");
 		switch(highlight2)
 		  {
 		  case 0:
-		    longeurJeu=longeurJeu-1;
+		    //longeurJeu=longeurJeu-1;
 		    break;
 		  case 1:
 		    break;
 		  case 2:
-		    longeurJeu=longeurJeu+1;
+		    //longeurJeu=longeurJeu+1;
 		    break;
 		  }
 		break;
 	      }
 	    case 2:
 	      {
-		menu.print(1 , 6 , "hauteur");
+		menu.print(1 , 6 , "option");
 		switch(highlight2)
 		  {
 		  case 0:
-		    hauteurJeu=hauteurJeu-1;
+		    //hauteurJeu=hauteurJeu-1;
 		    break;
 		  case 1:
 		    break;
 		  case 2:
-		    hauteurJeu=hauteurJeu+1;
+		    //hauteurJeu=hauteurJeu+1;
 		    break;
 		  }
 		break;
