@@ -7,7 +7,7 @@
 
 //-------------------------------------constructeurs----------------------//
 
-tableauBriques::tableauBriques() : taille(12) , alloc(12) , decalBriquesX(4) ,decalBriquesY(3) , distanceInterBriques(1) , nbDeLignes(3){
+tableauBriques::tableauBriques() : taille(12) , alloc(12) , decalBriquesX(1) ,decalBriquesY(3) , distanceInterBriques(3) , nbDeLignes(3){
   //creer le tab dynamic
   Brique *tabB = new Brique [alloc];
   data = tabB;

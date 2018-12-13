@@ -4,8 +4,10 @@
 #include <ncurses.h>
 #include <string>
 #include <cstdlib>
-#include"briques.h"
+#include "briques.h"
 #include "tableauBriques.h"
+#include "joueur.h"
+
 
 void jeu(options opt){
   
@@ -17,17 +19,26 @@ void jeu(options opt){
   //W(hauteur , longeur , posX , posY , bord?)
   Window menu((opt.getH()/2)-2,(opt.getL()/3)-1,(opt.getL()/(1.5)),0,0);
   Window plateau(opt.getH()-2,(opt.getL()/(1.5))-2,0,0,0);
-  Window infoJouer((opt.getH()/2)-2,(opt.getL()/3)-1,(opt.getL()/(1.5)),opt.getH()/2,0);
+  Window infoJoueur((opt.getH()/2)-2,(opt.getL()/3)-1,(opt.getL()/(1.5)),opt.getH()/2,0);
 
   //changer les couleurs des bords
   menu.setCouleurBordure(BRED);
   plateau.setCouleurBordure(BBLUE);
-  infoJouer.setCouleurBordure(BYELLOW);
-
-  //text static dans les fenetres
+  infoJoueur.setCouleurBordure(BYELLOW);
+  //---------------------text menu--------------------//
   menu.print(1,1,"Tapez q pour quitter !!!",WRED);
-  infoJouer.print(1,1,"Les infos du jouer sont ici :)",WCYAN);
+  //-----------------------fin text menu---------------//
+  
+  //-----------------------Joueur----------------------//
+  //x,y
+  infoJoueur.print(((infoJoueur.getLargeur())/2)-5,0,"---STATS---",WYELLOW);
+  joueur J( "Bob", 3 , 1 , 0);
+  J.printStats(infoJoueur.getwin());
+  
+  //----------------------fin Joueur-----------------------------//
 
+
+  
   //---------------------raquette Start------------------------//
 
   //y=plateau.getHauteur()-3 = 3 pixel sur le sol
@@ -55,7 +66,7 @@ void jeu(options opt){
   //----------------------boucle de jeu et controls--------------//
   while((ch = getch()) != 'q')
     {
-      //bri.printBrique(plateau.getwin());
+      J.printStats(infoJoueur.getwin());
       switch (ch)
 	{
 	case '1':
@@ -100,7 +111,7 @@ void jeu(options opt){
 	  
 	
 	}
-     
+      J.addScore(1);
     }
   
   //---------------------------finBoucle de jeu--------------------------//
