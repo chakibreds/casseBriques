@@ -65,6 +65,7 @@ class Window {
 
   //pour print platfr
   WINDOW* getwin() const;
+
   WINDOW* getframe() const;
 
   //pour menus
@@ -76,6 +77,7 @@ class Window {
   void setCouleurBordure(Color);   // modifie la couleur de la bordure
   void setCouleurFenetre(Color);   // modifie la couleur de la fenêtre (ATTENTION, tout le contenu de la fenêtre prend la couleur)
 
+  void popup(std::string str);
   void clear() const; // enleve tout le contenu de la fenêtre
 
 };

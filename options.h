@@ -5,9 +5,9 @@
 
 class options{
  private :
-  int hauteurJeu;
-  int longeurJeu;
-  int longeurPlatf;
+  unsigned int hauteurJeu;
+  unsigned int longeurJeu;
+  unsigned int longeurPlatf;
   
   //methodes pour lire le fichier de config
   void nettoie(std::string &str);
@@ -16,15 +16,15 @@ class options{
   
  public :
   options();
-  options(int h, int l, int longp);
+  options(unsigned int h, unsigned int l, unsigned int longp);
   
-  int getH()const;
-  int getL()const;
-  int getLongPla()const;
+  unsigned int getH()const;
+  unsigned int getL()const;
+  unsigned int getLongPla()const;
 
-  void setHauteurJeu(int x);
-  void setLongPla(int x);
-  void setLongJeu(int x);
+  void setHauteurJeu(unsigned int x);
+  void setLongPla(unsigned int x);
+  void setLongJeu(unsigned int x);
   void menu();
   
   void loadConfig(std::string file);

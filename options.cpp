@@ -13,7 +13,7 @@ options::options(){
   longeurPlatf = 8;
 }
 
-options::options(int h , int l , int longp) : hauteurJeu(h), longeurJeu(l) , longeurPlatf(longp){}
+options::options(unsigned int h , unsigned int l , unsigned int longp) : hauteurJeu(h), longeurJeu(l) , longeurPlatf(longp){}
 
 //----------------------lecture fichier config------------------------//
 void options::nettoie(std::string &str){
@@ -100,13 +100,13 @@ void options::loadConfig(std::string file){
 
 //------------------------------fin lecture fichier config------------//
 
-int options::getH() const { return hauteurJeu; }
-int options::getL() const { return longeurJeu; }
-int options::getLongPla() const { return longeurPlatf; }
+unsigned int options::getH() const { return hauteurJeu; }
+unsigned int options::getL() const { return longeurJeu; }
+unsigned int options::getLongPla() const { return longeurPlatf; }
 
-void options::setHauteurJeu(int x){hauteurJeu = x;}
-void options::setLongPla(int x){longeurJeu = x;}
-void options::setLongJeu(int x){longeurPlatf = x;}
+void options::setHauteurJeu(unsigned int x){hauteurJeu = x;}
+void options::setLongPla(unsigned int x){longeurJeu = x;}
+void options::setLongJeu(unsigned int x){longeurPlatf = x;}
 
 
 
@@ -120,7 +120,7 @@ void options::menu() {
   std::string T[5][3];
   std::string choices[5] = {"option1","Load Fichier config","option 3","longeur plataforme","Exit"};
   
-  
+  //faire le tab pour me menu
   for(int i = 0 ; i<5 ; i++)
     {
       
@@ -160,11 +160,14 @@ void options::menu() {
 	}
       
     }
+  
   int choice;
   int highlight = 0;
   int highlight2 = 0;
+
   while(1)
     {
+      //print le tab
       for(int i = 0 ; i<5 ; i++)
 	{
 	  for(int j = 0 ; j<3 ; j++)
@@ -196,7 +199,7 @@ void options::menu() {
 
       
       choice = wgetch(menu.getwin());
-      
+      //changer le highlight  c-a-d changer l'indice
       switch(choice)
 	{
 	case KEY_UP:
@@ -232,7 +235,7 @@ void options::menu() {
 	      break;
 	    case 1:
 	      {
-		menu.print(0 , 0 , "config");
+	
 		switch(highlight2)
 		  {
 		  case 0:
@@ -240,6 +243,7 @@ void options::menu() {
 		    break;
 		  case 1:
 		    loadConfig("config.txt");
+		    menu.popup("Le fichier de config a été bien chargé ");
 		    break;
 		  case 2:
 		    //longeurJeu=longeurJeu+1;
@@ -249,7 +253,7 @@ void options::menu() {
 	      }
 	    case 2:
 	      {
-		menu.print(1 , 6 , "option");
+		
 		switch(highlight2)
 		  {
 		  case 0:
@@ -265,16 +269,32 @@ void options::menu() {
 	      }
 	    case 3:
 	      {
-		menu.print(2 , 9 , "longeurplat");
+		
 		switch(highlight2)
 		  {
 		  case 0:
-		    longeurPlatf=longeurPlatf-1;
+		    {
+		      if(longeurPlatf-1 <= 0)
+			{
+			  std::string message = "Valeur Minimal = 1 \n Longeur Plataforme = " + std::to_string(longeurPlatf);
+			  menu.popup(message);
+			}
+		      else
+			{
+			  longeurPlatf=longeurPlatf-1;
+			  std::string message = "Longeur de plataforme diminue \n nouvelle longeur = " + std::to_string(longeurPlatf);
+			  menu.popup(message);
+			}
+		    }
 		    break;
 		  case 1:
 		    break;
 		  case 2:
-		    longeurPlatf = longeurPlatf+1;
+		    {
+		      longeurPlatf = longeurPlatf+1;
+		      std::string message = "Longeur de plataforme augmenté \n nouvelle longeur = " + std::to_string(longeurPlatf);
+		      menu.popup(message);
+		    }
 		    break;
 		  }
 		break;

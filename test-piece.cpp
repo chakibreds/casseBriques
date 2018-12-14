@@ -140,15 +140,17 @@ void myprogram(){
   mainmenu.keypadon();
 
 
+  //exemple popup
+  //std::string str= "hola \n " + std::to_string(m);
+  //mainmenu.popup(str);
 
-
-
-  
+ 
   //----------------------------MENU-START--------------------------------//
 
   while(1)
     {
       //   box(mainmenu  ,0 , 0);
+    
       mainmenu.updateframe();
 
       
