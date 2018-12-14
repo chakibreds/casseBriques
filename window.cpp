@@ -117,7 +117,7 @@ void Window::setCouleurFenetre(Color c){
   update();  
 }
 
-void Window::popup(std::string str){
+void Window::popup(std::string str) const{
   int longr = str.size();
   if(longr<30)
     longr = 30;
@@ -135,6 +135,30 @@ void Window::popup(std::string str){
     {
       choice = wgetch(FenetrePop.getwin());
     }
+}
+
+void Window::popupTimer(std::string str , unsigned int ms)const
+{
+
+  int longr = str.size();
+  if(longr<30)
+    longr = 30;
+  
+  int hautr = 5;
+  hautr = hautr + std::count(str.begin() ,str.end(),'\n');
+  
+  Window FenetrePop(hautr,longr,(width/2)-(longr/2),(height/2)-(hautr-1),0);
+  FenetrePop.print(1, 1 , str);
+  FenetrePop.print(1, hautr-1 , "ENTER pour continuer");
+  
+  int choice = 0;
+  int i = 9;
+  while(choice!=10 && i<3000000)
+    {
+      choice = getch();
+      i++;
+    }
+  
 }
 
 

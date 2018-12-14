@@ -10,7 +10,7 @@ options::options(){
   //on va faire static
   hauteurJeu = 24;
   longeurJeu = 80;
-  longeurPlatf = 8;
+  longeurPlatf = 14;
 }
 
 options::options(unsigned int h , unsigned int l , unsigned int longp) : hauteurJeu(h), longeurJeu(l) , longeurPlatf(longp){}
@@ -167,6 +167,7 @@ void options::menu() {
 
   while(1)
     {
+     
       //print le tab
       for(int i = 0 ; i<5 ; i++)
 	{
@@ -243,7 +244,7 @@ void options::menu() {
 		    break;
 		  case 1:
 		    loadConfig("config.txt");
-		    menu.popup("Le fichier de config a été bien chargé ");
+		    menu.popupTimer("Le fichier de config a été bien chargé " , 0);
 		    break;
 		  case 2:
 		    //longeurJeu=longeurJeu+1;
@@ -277,13 +278,13 @@ void options::menu() {
 		      if(longeurPlatf-1 <= 0)
 			{
 			  std::string message = "Valeur Minimal = 1 \n Longeur Plataforme = " + std::to_string(longeurPlatf);
-			  menu.popup(message);
+			  menu.popupTimer(message , 0);
 			}
 		      else
 			{
 			  longeurPlatf=longeurPlatf-1;
 			  std::string message = "Longeur de plataforme diminue \n nouvelle longeur = " + std::to_string(longeurPlatf);
-			  menu.popup(message);
+			  menu.popupTimer(message , 0);
 			}
 		    }
 		    break;
@@ -293,7 +294,7 @@ void options::menu() {
 		    {
 		      longeurPlatf = longeurPlatf+1;
 		      std::string message = "Longeur de plataforme augmenté \n nouvelle longeur = " + std::to_string(longeurPlatf);
-		      menu.popup(message);
+		      menu.popupTimer(message , 0);
 		    }
 		    break;
 		  }

@@ -77,7 +77,8 @@ class Window {
   void setCouleurBordure(Color);   // modifie la couleur de la bordure
   void setCouleurFenetre(Color);   // modifie la couleur de la fenêtre (ATTENTION, tout le contenu de la fenêtre prend la couleur)
 
-  void popup(std::string str);
+  void popup(std::string str) const;
+  void popupTimer(std::string str , unsigned int ms)const;
   void clear() const; // enleve tout le contenu de la fenêtre
 
 };

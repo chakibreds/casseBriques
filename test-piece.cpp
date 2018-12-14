@@ -12,6 +12,7 @@
 void jeu(options opt){
   
   int ch; //ch = char clavier
+  int ch2;
   int h=opt.getH(),w=opt.getL();
 
   //creation de fenetres
@@ -62,6 +63,11 @@ void jeu(options opt){
   tab.printTableauBriques(plateau.getwin());
   //-----------------------------fin creation-------------------//
 
+  //-------------------------------instructions-----------------//
+  std::string str= "SPACE ou KEY_DOWN pour arreter la plataforme ";
+  plateau.popup(str);
+  tab.printTableauBriques(plateau.getwin());
+  //---------------------------fin instruc------------------------//
   
   //----------------------boucle de jeu et controls--------------//
   while((ch = getch()) != 'q')
@@ -83,24 +89,103 @@ void jeu(options opt){
 	case KEY_DOWN:
 	  break;  
 	case KEY_LEFT:
-	  //mvt raquette
-	  pla1.printVide(plateau.getwin());
-	  if( pla1.contactmurG(plateau.getLargeur())) {
-	    pla1.setx(--x);
-	  }
-	  pla1.print(plateau.getwin());
-	  
-	  
-	  break;
+	{
+	 
+	    while(ch != ' ' && ch != KEY_DOWN)
+	      {
+		while((ch = getch()) != KEY_RIGHT && ch != ' ' && ch != KEY_DOWN)
+		  {
+		    //------------------mvt platf------------------//
+		    pla1.printVide(plateau.getwin());
+		    if( pla1.contactmurG(plateau.getLargeur()))
+			{
+			  pla1.setx(--x);
+			}
+		    pla1.print(plateau.getwin());
+		    //----------------------------------------------//
+		    
+		    //---------------le reste du jeu---------------//
+		    J.addScore(1);		    
+		    J.printStats(infoJoueur.getwin());
+		    tab.printTableauBriques(plateau.getwin());
+		    //---------------------------------------------//
+		    //le delay
+		    for(int i = 0 ; i<10000000 ; i++);
+		  }
+		  if(ch != ' '&& ch != KEY_DOWN)
+		    {
+		      
+		      while((ch = getch()) != KEY_LEFT && ch != ' ' && ch != KEY_DOWN)
+			{
+			   //------------------mvt platf------------------//
+			  pla1.printVide(plateau.getwin());
+			  if( pla1.contactmurD(plateau.getLargeur()))
+			    {
+			      pla1.setx(++x);
+			    }
+			  pla1.print(plateau.getwin());
+			  //---------------------------------------------//
+			  //---------------le reste du jeu---------------//
+			  J.addScore(1);			  
+			  J.printStats(infoJoueur.getwin());
+			  tab.printTableauBriques(plateau.getwin());
+			   //---------------------------------------------//
+			  //le delay
+			  for(int i = 0 ; i<10000000 ; i++);
+			}
+		      
+		    }
+	      }
+	}
+	break;
 	case KEY_RIGHT:
-	  //mvt raquette
-	  pla1.printVide(plateau.getwin());
-	  if( pla1.contactmurD(plateau.getLargeur())) {
-	    pla1.setx(++x);
+	  {
+	    
+	    while(ch != ' '&& ch != KEY_DOWN)
+	      {
+		while((ch = getch()) != KEY_LEFT && ch != ' ' && ch != KEY_DOWN)
+		  {
+		     //------------------mvt platf------------------//
+		    pla1.printVide(plateau.getwin());
+		    if( pla1.contactmurD(plateau.getLargeur()))
+		      {
+			pla1.setx(++x);
+		      }
+		     pla1.print(plateau.getwin());
+		     //---------------------------------------------//
+		      //---------------le reste du jeu---------------//
+		    J.addScore(1);		    
+		    J.printStats(infoJoueur.getwin());
+		    tab.printTableauBriques(plateau.getwin());
+		     //---------------------------------------------//
+		    //le delay
+		    for(int i = 0 ; i<10000000 ; i++);
+		  }
+		if(ch != ' '&& ch != KEY_DOWN)
+		  {
+		    while((ch = getch()) != KEY_RIGHT && ch !=' ' && ch != KEY_DOWN)
+		      {
+			 //------------------mvt platf------------------//
+			pla1.printVide(plateau.getwin());
+			if( pla1.contactmurG(plateau.getLargeur()))
+			  {
+			    pla1.setx(--x);
+			  }
+			 pla1.print(plateau.getwin());
+			 //---------------------------------------------//
+			  //---------------le reste du jeu---------------//
+			J.addScore(1);			
+			J.printStats(infoJoueur.getwin());
+			tab.printTableauBriques(plateau.getwin());
+			 //---------------------------------------------//
+			//le delay
+			for(int i = 0 ; i<10000000 ; i++);
+		      }
+		  }
+	      }
 	  }
-	  pla1.print(plateau.getwin());
+	  
 	  break;
-
 	case '\n':
 	  break;
 	case '\t':
@@ -109,9 +194,10 @@ void jeu(options opt){
 	  plateau.setCouleurBordure(tmp);
 	  break;
 	  
-	
 	}
       J.addScore(1);
+      //le delay
+      for(int i = 0 ; i<10000000 ; i++);
     }
   
   //---------------------------finBoucle de jeu--------------------------//
