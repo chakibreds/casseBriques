@@ -1,7 +1,6 @@
 #include "options.h"
 #include "window.h"
 #include <exception>
-#include <iostream>
 #include <fstream>
 //hauteurJeu(10) , longeurJeu(50) , longeurPlatf(8)
 options::options(){
@@ -11,6 +10,7 @@ options::options(){
   hauteurJeu = 24;
   longeurJeu = 80;
   longeurPlatf = 14;
+  vitesseJeu = 17;
 }
 
 options::options(unsigned int h , unsigned int l , unsigned int longp) : hauteurJeu(h), longeurJeu(l) , longeurPlatf(longp){}
@@ -44,7 +44,12 @@ bool options::findCleVal(std::string &line , std::string &cle , std::string &val
   //npos plus ou moins la meme chose que EOF pour les strings
   if(pos == std::string::npos){
     //a finir, exemple im maque des ':'
-    std::cerr << "Le fichier est mal formé" << std::endl;
+   
+
+    Window w(hauteurJeu , longeurJeu , 0 , 0 , 0 );
+    w.popup("ERREUR Le fichier est mal formé, TERMINATE");
+    stopProgramX(); 
+    
     std::terminate();
   }
 
@@ -60,9 +65,14 @@ bool options::findCleVal(std::string &line , std::string &cle , std::string &val
 void options::TraiteOption(const std::string &cle , const std::string &valeur, size_t num_ligne){
   
   //atoi str to int
-  if (cle == "longeurPlatf") {
-    longeurPlatf = atoi(valeur.c_str());
-  }
+  if (cle == "longeurPlatf")
+    {
+      longeurPlatf = atoi(valeur.c_str());
+    }
+  else if (cle == "vitesseJeu")
+    {
+      vitesseJeu = atoi(valeur.c_str());
+    }
 }
 
 void options::loadConfig(std::string file){
@@ -75,8 +85,10 @@ void options::loadConfig(std::string file){
 
   //a changer avec n curses aussi
   if (!input.is_open()) {
-     std::cerr << "Le fichier " << file << " n'a pas pu être ouvert." <<  std::endl;
-     std::terminate();
+    Window w(hauteurJeu , longeurJeu , 0 , 0 , 0 );
+    w.popup("ERREUR avec le fichier de configuration, TERMINATE");
+    stopProgramX();
+    std::terminate();
   }
 
   std::string line;
@@ -103,7 +115,9 @@ void options::loadConfig(std::string file){
 unsigned int options::getH() const { return hauteurJeu; }
 unsigned int options::getL() const { return longeurJeu; }
 unsigned int options::getLongPla() const { return longeurPlatf; }
+unsigned int options::getVitesse()const{return vitesseJeu;}
 
+void options::setVitesse(unsigned int x) {vitesseJeu = x;}
 void options::setHauteurJeu(unsigned int x){hauteurJeu = x;}
 void options::setLongPla(unsigned int x){longeurJeu = x;}
 void options::setLongJeu(unsigned int x){longeurPlatf = x;}
@@ -118,7 +132,7 @@ void options::menu() {
 
   //    y  x
   std::string T[5][3];
-  std::string choices[5] = {"option1","Load Fichier config","option 3","longeur plataforme","Exit"};
+  std::string choices[5] = {"option1","Load Fichier config","Vitesse : plus petit = plus vite","longeur plataforme","Exit"};
   
   //faire le tab pour me menu
   for(int i = 0 ; i<5 ; i++)
@@ -244,7 +258,7 @@ void options::menu() {
 		    break;
 		  case 1:
 		    loadConfig("config.txt");
-		    menu.popupTimer("Le fichier de config a été bien chargé " , 0);
+		    menu.popupTimer("Le fichier de config a été bien chargé " , 1500);
 		    break;
 		  case 2:
 		    //longeurJeu=longeurJeu+1;
@@ -258,13 +272,31 @@ void options::menu() {
 		switch(highlight2)
 		  {
 		  case 0:
-		    //hauteurJeu=hauteurJeu-1;
+		    {
+		      
+		      if(vitesseJeu == 1)
+			{
+			  std::string message = "Vitesse maximal \n vitesse = " + std::to_string(vitesseJeu);
+			  menu.popupTimer(message , 1500);
+			}
+		      else
+			{
+			  vitesseJeu = vitesseJeu - 1;
+			  std::string message = "Vitesse augmenté \n nouvelle vitesse = " + std::to_string(vitesseJeu);
+			  menu.popupTimer(message , 1500);
+			}
+		      
+		    }
 		    break;
 		  case 1:
 		    break;
 		  case 2:
-		    //hauteurJeu=hauteurJeu+1;
-		    break;
+		    {
+		      vitesseJeu = vitesseJeu + 1;
+		      std::string message = "Vitesse diminueé \n nouvelle vitesse = " + std::to_string(vitesseJeu);
+		      menu.popupTimer(message , 1500);
+		    }
+		     break;
 		  }
 		break;
 	      }
@@ -278,13 +310,13 @@ void options::menu() {
 		      if(longeurPlatf-1 <= 0)
 			{
 			  std::string message = "Valeur Minimal = 1 \n Longeur Plataforme = " + std::to_string(longeurPlatf);
-			  menu.popupTimer(message , 0);
+			  menu.popupTimer(message , 1500);
 			}
 		      else
 			{
 			  longeurPlatf=longeurPlatf-1;
 			  std::string message = "Longeur de plataforme diminue \n nouvelle longeur = " + std::to_string(longeurPlatf);
-			  menu.popupTimer(message , 0);
+			  menu.popupTimer(message , 1500);
 			}
 		    }
 		    break;
@@ -294,7 +326,7 @@ void options::menu() {
 		    {
 		      longeurPlatf = longeurPlatf+1;
 		      std::string message = "Longeur de plataforme augmenté \n nouvelle longeur = " + std::to_string(longeurPlatf);
-		      menu.popupTimer(message , 0);
+		      menu.popupTimer(message , 1500);
 		    }
 		    break;
 		  }

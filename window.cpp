@@ -1,6 +1,9 @@
 #include "window.h"
 #include <ncurses.h>
-#include <algorithm> 
+#include <algorithm>
+#include <chrono>
+#include <thread>
+
 void init_colors(void)
 {
   start_color();
@@ -125,7 +128,7 @@ void Window::popup(std::string str) const{
   int hautr = 5;
   hautr = hautr + std::count(str.begin() ,str.end(),'\n');
   
-  Window FenetrePop(hautr,longr,(width/2)-(longr/2),(height/2)-(hautr-1),0);
+  Window FenetrePop(hautr,longr+1,(width/2)-(longr/2),(height/2)-(hautr-1),0);
   FenetrePop.print(1, 1 , str);
   FenetrePop.print(1, hautr-1 , "ENTER pour continuer");
 
@@ -139,7 +142,10 @@ void Window::popup(std::string str) const{
 
 void Window::popupTimer(std::string str , unsigned int ms)const
 {
+  using namespace std::this_thread;
+  using namespace std::chrono;
 
+  
   int longr = str.size();
   if(longr<30)
     longr = 30;
@@ -147,16 +153,17 @@ void Window::popupTimer(std::string str , unsigned int ms)const
   int hautr = 5;
   hautr = hautr + std::count(str.begin() ,str.end(),'\n');
   
-  Window FenetrePop(hautr,longr,(width/2)-(longr/2),(height/2)-(hautr-1),0);
+  Window FenetrePop(hautr,longr+1,(width/2)-(longr/2),(height/2)-(hautr-1),0);
   FenetrePop.print(1, 1 , str);
   FenetrePop.print(1, hautr-1 , "ENTER pour continuer");
   
   int choice = 0;
-  int i = 9;
-  while(choice!=10 && i<3000000)
+  int i = 0;
+  while(choice!=10 && i<ms)
     {
       choice = getch();
       i++;
+      sleep_for(milliseconds(1));
     }
   
 }
