@@ -6,9 +6,9 @@ class Brique
  private: 
   char corp; 
   unsigned int resistance;
-  unsigned int L;
-  unsigned int l;
-  unsigned int x;
+  unsigned int L;            // L la hauteur de la brique (taille en y)
+  unsigned int l;            // l la largeur de la brique (taille en x)
+  unsigned int x;            // x et y position du coin EN HAUT A GAUCHE
   unsigned int y;
   
   Color couleur;
