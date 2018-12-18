@@ -5,22 +5,24 @@
 #include <exception>
 #include <fstream>
 #include <string>
-
+#include <ncurses.h>
 class highScore{
+  
+ private:
+  unsigned int *TabDeScores;
 
-private:
-unsigned int *TabDeScores;
+ 
+ public:
+  
+ 
+  highScore();
+  //~highScore(); faut le faire
+  bool estUnHighScore(unsigned int x) const;
+  void mettreNouveauHighScore(unsigned int score , std::string nom);
 
-public:
-
-
-highScore();
-//~highScore(); faut le faire
-bool estUnHighScore(unsigned int x) const;
-void MettrenouveauHighScore(std::string file , unsigned int score , std::string nom) const;
-
-
-
+  void pop(const Window &w)const;
+ 
+  
 };
 
 #endif

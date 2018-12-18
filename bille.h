@@ -43,7 +43,7 @@ public:
     void setDirY(int dirY);
     void setIcone(char icon);
     void setDirDepart(DirectionDepart dir);
-    
+    void depart();
     void avancer();
     void changerTrajectoire(int angle);                     // ne prend que l'angle de la surface sur laquelle le choc a lieu
     void contactBords(int tailleX, int tailleY);            // prend taille grille de jeu
@@ -51,6 +51,7 @@ public:
     bool billeDansBrique(Brique uneBrique) const;
     void contactBrique(tableauBriques *tabBriques);
     void print(WINDOW* w) const;
+    void effacePrintBille(WINDOW* w) const;
     
 };
 #endif

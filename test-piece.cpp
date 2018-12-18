@@ -9,13 +9,15 @@
 #include "briques.h"
 #include "tableauBriques.h"
 #include "joueur.h"
+#include "highScore.h"
+#include "bille.h"
 
 
 void jeu(options opt){
   using namespace std::this_thread; // sleep_for, sleep_until
   using namespace std::chrono; // nanoseconds, system_clock, seconds
   
-
+ 
 
   
   int ch; //ch = char clavier
@@ -75,9 +77,14 @@ void jeu(options opt){
   plateau.popup(str);
   tab.printTableauBriques(plateau.getwin());
   //---------------------------fin instruc------------------------//
+
+  //-----------------------creation Bille-----------------------//
+  Bille maBille(pla1.getx()+pla1.getlongr()/2,pla1.gety()-1,0,0,'o',Bille::DROITE);
+  maBille.print(plateau.getwin());
+  //-----------------------------fin creation-------------------//
   
   //----------------------boucle de jeu et controls--------------//
-  while(ch != 'q' && (ch = getch()) != 'q')
+  while((ch = getch()) != 'q')
     {
       J.printStats(infoJoueur.getwin());
       switch (ch)
@@ -96,103 +103,41 @@ void jeu(options opt){
 	case KEY_DOWN:
 	  break;  
 	case KEY_LEFT:
-	{
-	 
-	    while(ch != ' ' && ch != KEY_DOWN && ch != 'q' )
-	      {
-		while((ch = getch()) != KEY_RIGHT && ch != ' ' && ch != KEY_DOWN && ch != 'q' )
-		  {
-		    //------------------mvt platf------------------//
-		    pla1.printVide(plateau.getwin());
-		    if( pla1.contactmurG(plateau.getLargeur()))
-			{
-			  pla1.setx((pla1.getx())-1);
-			}
-		    pla1.print(plateau.getwin());
-		    //----------------------------------------------//
-		    
-		    //---------------le reste du jeu---------------//
-		    J.addScore(1);		    
-		    J.printStats(infoJoueur.getwin());
-		    tab.printTableauBriques(plateau.getwin());
-		    //---------------------------------------------//
-		    //le delay
-		    sleep_for(milliseconds(vitesse));
-		  }
-		  if(ch != ' '&& ch != KEY_DOWN && ch != 'q' )
-		    {
-		      
-		      while((ch = getch()) != KEY_LEFT && ch != ' ' && ch != KEY_DOWN && ch != 'q' )
-			{
-			   //------------------mvt platf------------------//
-			  pla1.printVide(plateau.getwin());
-			  if( pla1.contactmurD(plateau.getLargeur()))
-			    {
-			      pla1.setx((pla1.getx())+1);
-			    }
-			  pla1.print(plateau.getwin());
-			  //---------------------------------------------//
-			  //---------------le reste du jeu---------------//
-			  J.addScore(1);			  
-			  J.printStats(infoJoueur.getwin());
-			  tab.printTableauBriques(plateau.getwin());
-			   //---------------------------------------------//
-			  //le delay
-			  sleep_for(milliseconds(vitesse));
-			}
-		      
-		    }
-	      }
-	}
-	break;
+	  {
+	     pla1.printVide(plateau.getwin());
+	     maBille.effacePrintBille(plateau.getwin());
+	     if( pla1.contactmurG(plateau.getLargeur()))
+	       {
+		maBille.setX(maBille.getX()-1);
+		pla1.setx((pla1.getx())-1);
+	       }
+	     
+	     
+	     maBille.setDirDepart(Bille::DROITE);
+	     //prints
+	     maBille.print(plateau.getwin());
+	     pla1.print(plateau.getwin());
+	  }
+
+	  
+	  break;
 	case KEY_RIGHT:
 	  {
-	    
-	    while(ch != ' '&& ch != KEY_DOWN && ch != 'q' )
-	      {
-		while((ch = getch()) != KEY_LEFT && ch != ' ' && ch != KEY_DOWN && ch != 'q' )
-		  {
-		    //------------------mvt platf------------------//
-		    pla1.printVide(plateau.getwin());
-		    if( pla1.contactmurD(plateau.getLargeur()))
-		      {
-			pla1.setx((pla1.getx())+1);
-		      }
-		    pla1.print(plateau.getwin());
-		    //---------------------------------------------//
-		    //---------------le reste du jeu---------------//
-		    J.addScore(1);		    
-		    J.printStats(infoJoueur.getwin());
-		    tab.printTableauBriques(plateau.getwin());
-		     //---------------------------------------------//
-		    //le delay
-		    sleep_for(milliseconds(vitesse));
-		  }
-		if(ch != ' '&& ch != KEY_DOWN && ch != 'q' )
-		  {
-		    while((ch = getch()) != KEY_RIGHT && ch !=' ' && ch != KEY_DOWN && ch != 'q' )
-		      {
-			//------------------mvt platf------------------//
-			pla1.printVide(plateau.getwin());
-			if( pla1.contactmurG(plateau.getLargeur()))
-			  {
-			    pla1.setx((pla1.getx())-1);
-			  }
-			pla1.print(plateau.getwin());
-			//---------------------------------------------//
-			//---------------le reste du jeu---------------//
-			J.addScore(1);			
-			J.printStats(infoJoueur.getwin());
-			tab.printTableauBriques(plateau.getwin());
-			//---------------------------------------------//
-			//le delay
-			sleep_for(milliseconds(vitesse));
-			
-		      }
-		  }
-	      }
+
+	   pla1.printVide(plateau.getwin());
+	     maBille.effacePrintBille(plateau.getwin());
+	     if( pla1.contactmurD(plateau.getLargeur()))
+	       {
+		maBille.setX(maBille.getX()+1);
+		pla1.setx((pla1.getx())+1);
+	       }
+	     
+	     
+	     maBille.setDirDepart(Bille::GAUCHE);
+	     //prints
+	     maBille.print(plateau.getwin());
+	     pla1.print(plateau.getwin());
 	  }
-	  
 	  break;
 	case '\n':
 	  break;
@@ -205,12 +150,16 @@ void jeu(options opt){
 	}
       J.addScore(1);
       //le delay
-     	sleep_for(milliseconds(vitesse));
+      sleep_for(milliseconds(vitesse));
       
     }
   
   //---------------------------finBoucle de jeu--------------------------//
+  highScore high;
+  if(high.estUnHighScore(J.getScore()))
+    high.mettreNouveauHighScore(J.getScore(),J.getNomJ());
   
+  high.pop(plateau);
 
 }
 
@@ -297,7 +246,7 @@ void myprogram(){
 	if(highlight == 2)
 	  break;
       }
-      
+
     }
   
   //----------------------------MENU-FIN--------------------------------//

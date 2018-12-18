@@ -96,6 +96,7 @@ void options::loadConfig(std::string file){
   while(!input.eof())
     {
       //getline() augment automatique
+      //getline() ends at \n
       getline(input , line);
       if(!input.eof())
 	{

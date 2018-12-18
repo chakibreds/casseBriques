@@ -19,6 +19,10 @@ Brique::Brique(const Brique &b)
   x=b.x;
   y=b.y;
 }
+unsigned int Brique::getResistance()const
+{
+  return resistance;
+}
 unsigned int Brique::getL()const
 {
   return L; 
@@ -34,10 +38,6 @@ unsigned int Brique::getX()const
 unsigned int Brique::getY()const
 {
   return y; 
-}
-unsigned int Brique::getResistance()const
-{
-  return resistance;
 }
 void Brique::setL(unsigned int L)
 {

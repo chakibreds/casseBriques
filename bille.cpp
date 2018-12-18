@@ -6,12 +6,14 @@
 
 
 
-Bille::Bille() : posX(0), posY(0), directionX(0), directionY(0), icone('o'), maDirection(GAUCHE){
+Bille::Bille() : posX(0), posY(0), directionX(0), directionY(0), icone('o'), maDirection(DROITE){
 }
 
 Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDebut): posX(x), posY(y), directionX(dirX), directionY(dirY), icone(icon), maDirection(dirDebut){
 }
 
+
+//   Getters
     int Bille::getX() const{
         return posX;
     }
@@ -32,6 +34,8 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
     }
 
     
+    
+//    Setters
     void Bille::setX(int x) {
         posX=x;
     }
@@ -52,11 +56,22 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
     }
     
     
+    
+    
+    void Bille::depart(){
+        this->setDirY(-1);
+        if (maDirection==Bille::GAUCHE){
+            this->setDirX(-1);
+        }
+        if (maDirection==Bille::DROITE){
+            this->setDirX(1);
+        }
+    }
+    
     void Bille::avancer(){
         posX=posX+directionX;
         posY=posY+directionY;
     }
-    
     
     void Bille::changerTrajectoire(int angle){
         if (angle==0){
@@ -71,7 +86,6 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
         }
     }
     
-    
     void Bille::contactBords(int tailleX, int tailleY){
         if ((posX+directionX==tailleX)||(posX+directionX<0)){
             (this->changerTrajectoire(90));
@@ -81,18 +95,15 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
         }
     }
     
-    
     void Bille::contactRaquette(int debutRaquette, int finRaquette, int yRaquette){
         if((posX+directionX<=finRaquette && posX+directionX>=debutRaquette)&&(posY+directionY==yRaquette)){
             this->changerTrajectoire(0);
         }
     }
     
-    
     bool Bille::billeDansBrique(Brique uneBrique) const{    // renvoie (bille sera dans brique)
         return(((posX+directionX>=uneBrique.getX() && posX+directionX<uneBrique.getX()+uneBrique.getl()) && (posY+directionY>=uneBrique.getY() && posY+directionY<uneBrique.getY()+uneBrique.getL())));
     }
-    
     
     void Bille::contactBrique(tableauBriques *tabBriques){
         int nbrBriques=tabBriques->getTaille();
@@ -107,14 +118,21 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
                 else if (posY==tabBriques->at(i).getY()+tabBriques->at(i).getL()+1 || posY==tabBriques->at(i).getY()-1){
                     this->changerTrajectoire(0);
                 }
+                tabBriques->at(i).setResistance(tabBriques->at(i).getResistance()-1);
             }
         }
     }
     
-    
     void Bille::print(WINDOW* w) const{
         std::string x(1,icone);
         mvwprintw(w,posY,posX,x.c_str());
+        wrefresh(w);
+        refresh();
+    }
+    
+    void Bille::effacePrintBille(WINDOW* w) const{
+        std::string x(1,' ');
+        mvwprintw(w, posY, posX, x.c_str());
         wrefresh(w);
         refresh();
     }
