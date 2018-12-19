@@ -81,11 +81,15 @@ void jeu(options opt){
   //-----------------------creation Bille-----------------------//
   Bille maBille(pla1.getx()+pla1.getlongr()/2,pla1.gety()-1,0,0,'o',Bille::DROITE);
   maBille.print(plateau.getwin());
+  maBille.setDirDepart(Bille::GAUCHE);
+  maBille.depart();
   //-----------------------------fin creation-------------------//
   
   //----------------------boucle de jeu et controls--------------//
   while((ch = getch()) != 'q')
     {
+      //tab.printTableauBriques(plateau.getwin());
+      maBille.print(plateau.getwin());
       J.printStats(infoJoueur.getwin());
       switch (ch)
 	{
@@ -98,24 +102,28 @@ void jeu(options opt){
 	case 'c':
 	  plateau.clear();
 	  break;
-	case KEY_UP:
+	case 'v':
+	  {
+	   
+	    maBille.avancer();
+	  }
 	  break;
 	case KEY_DOWN:
 	  break;  
 	case KEY_LEFT:
 	  {
 	     pla1.printVide(plateau.getwin());
-	     maBille.effacePrintBille(plateau.getwin());
+	     //maBille.effacePrintBille(plateau.getwin());
 	     if( pla1.contactmurG(plateau.getLargeur()))
 	       {
-		maBille.setX(maBille.getX()-1);
+		 //maBille.setX(maBille.getX()-1);
 		pla1.setx((pla1.getx())-1);
 	       }
 	     
 	     
-	     maBille.setDirDepart(Bille::DROITE);
+	     //maBille.setDirDepart(Bille::DROITE);
 	     //prints
-	     maBille.print(plateau.getwin());
+	     //maBille.print(plateau.getwin());
 	     pla1.print(plateau.getwin());
 	  }
 
@@ -125,17 +133,17 @@ void jeu(options opt){
 	  {
 
 	   pla1.printVide(plateau.getwin());
-	     maBille.effacePrintBille(plateau.getwin());
+	   //maBille.effacePrintBille(plateau.getwin());
 	     if( pla1.contactmurD(plateau.getLargeur()))
 	       {
-		maBille.setX(maBille.getX()+1);
+		 //maBille.setX(maBille.getX()+1);
 		pla1.setx((pla1.getx())+1);
 	       }
 	     
 	     
-	     maBille.setDirDepart(Bille::GAUCHE);
+	     //maBille.setDirDepart(Bille::GAUCHE);
 	     //prints
-	     maBille.print(plateau.getwin());
+	     //maBille.print(plateau.getwin());
 	     pla1.print(plateau.getwin());
 	  }
 	  break;
@@ -151,7 +159,11 @@ void jeu(options opt){
       J.addScore(1);
       //le delay
       sleep_for(milliseconds(vitesse));
-      
+      maBille.effacePrintBille(plateau.getwin());
+      maBille.avancer();
+      //maBille.contactBrique(&tab);
+      maBille.contactRaquette(pla1.getx() , pla1.getx()+pla1.getlongr() , pla1.gety());
+      maBille.contactBords(plateau.getLargeur() ,plateau.getHauteur());
     }
   
   //---------------------------finBoucle de jeu--------------------------//

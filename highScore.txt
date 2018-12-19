@@ -1,10 +1,36 @@
 #nom--------score 
 #NE PAS MODIFIER 
-Bob : 926
-Bob : 121
-Bob : 89
-Bob : 32
-Bob : 10
+Bob : 3831
+Bob : 3244
+Bob : 2510
+Bob : 2141
+Bob : 1150
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
 
 
 
