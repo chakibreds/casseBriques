@@ -41,15 +41,15 @@ class tableauBriques{
 
 
 
-  
+
   //destructeur
   //~tableauBriques();
 
-  
+  void supprimerBrique(size_t i);
   //-------lecture
   size_t getTaille() const;
   size_t getAlloc() const;
-  Brique at(size_t i) const;
+  Brique &at(size_t i) ;
   void printTableauBriques(WINDOW *w) const;
   unsigned int getDecalBriquesX() const;
   unsigned int getDecalBriquesY() const;
@@ -59,7 +59,7 @@ class tableauBriques{
   //-------modif tab
   void setTaille(size_t i);
   void setAlloc(size_t i);
-  
+
 
   //-------modif brique
   void setCorpAt(size_t i , char c);
@@ -69,9 +69,9 @@ class tableauBriques{
   void setPosxAt(size_t i , unsigned int _x);
   void setPosyAt(size_t i , unsigned int _y);
   void setColorAt(size_t i , Color col);
-  
-  
-  
-  
+
+
+
+
 };
 #endif

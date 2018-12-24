@@ -8,35 +8,35 @@
 class Bille{
 
 public:
-    
+
     enum DirectionDepart {
     GAUCHE,
     DROITE,
     };
-    
+
 private:
-    
+
     int posX;
     int posY;
     int directionX;
     int directionY;
     char icone;
     DirectionDepart maDirection;
-    
-    
+
+
 public:
-    
+
     Bille();
     Bille(int positionX, int positionY, int dirX, int dirY, char icon, DirectionDepart dirDebut);
-    
-    
+
+
     int getX() const;
     int getY() const;
     int getDirX() const;
     int getDirY() const;
     char getIcone() const;
     DirectionDepart getDirDepart() const;
-    
+
     void setX(int x);
     void setY(int y);
     void setDirX(int dirX);
@@ -49,9 +49,9 @@ public:
     void contactBords(int tailleX, int tailleY);            // prend taille grille de jeu
     void contactRaquette(int debutRaquette, int finRaquette, int yRaquette); // prend taille raquette et sa pos en Y
     bool billeDansBrique(Brique uneBrique) const;
-    void contactBrique(tableauBriques *tabBriques);
+    void contactBrique(tableauBriques *tabBriques,WINDOW *w);
     void print(WINDOW* w) const;
     void effacePrintBille(WINDOW* w) const;
-    
+
 };
 #endif

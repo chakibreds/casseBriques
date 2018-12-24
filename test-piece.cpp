@@ -16,10 +16,10 @@
 void jeu(options opt){
   using namespace std::this_thread; // sleep_for, sleep_until
   using namespace std::chrono; // nanoseconds, system_clock, seconds
-  
- 
 
-  
+
+
+
   int ch; //ch = char clavier
   int h=opt.getH(),w=opt.getL();
 
@@ -38,17 +38,17 @@ void jeu(options opt){
   //---------------------text menu--------------------//
   menu.print(1,1,"Tapez q pour quitter !!!",WRED);
   //-----------------------fin text menu---------------//
-  
+
   //-----------------------Joueur----------------------//
   //x,y
   infoJoueur.print(((infoJoueur.getLargeur())/2)-5,0,"---STATS---",WYELLOW);
   joueur J( "Bob", 3 , 1 , 0);
   J.printStats(infoJoueur.getwin());
-  
+
   //----------------------fin Joueur-----------------------------//
 
 
-  
+
   //---------------------raquette Start------------------------//
 
   //y=plateau.getHauteur()-3 = 3 pixel sur le sol
@@ -62,7 +62,7 @@ void jeu(options opt){
 
   //print de la raquete
   pla1.print(plateau.getwin());
-  
+
   //--------------------raquette Fin---------------------------//
 
   Color col=WBLUE;
@@ -79,12 +79,12 @@ void jeu(options opt){
   //---------------------------fin instruc------------------------//
 
   //-----------------------creation Bille-----------------------//
-  Bille maBille(pla1.getx()+pla1.getlongr()/2,pla1.gety()-1,0,0,'o',Bille::DROITE);
+  Bille maBille(pla1.getx()+pla1.getlongr()/2,pla1.gety()-1,0,0,'O',Bille::DROITE);
   maBille.print(plateau.getwin());
   maBille.setDirDepart(Bille::GAUCHE);
   maBille.depart();
   //-----------------------------fin creation-------------------//
-  
+
   //----------------------boucle de jeu et controls--------------//
   while((ch = getch()) != 'q')
     {
@@ -104,12 +104,12 @@ void jeu(options opt){
 	  break;
 	case 'v':
 	  {
-	   
+
 	    maBille.avancer();
 	  }
 	  break;
 	case KEY_DOWN:
-	  break;  
+	  break;
 	case KEY_LEFT:
 	  {
 	     pla1.printVide(plateau.getwin());
@@ -119,15 +119,15 @@ void jeu(options opt){
 		 //maBille.setX(maBille.getX()-1);
 		pla1.setx((pla1.getx())-1);
 	       }
-	     
-	     
+
+
 	     //maBille.setDirDepart(Bille::DROITE);
 	     //prints
 	     //maBille.print(plateau.getwin());
 	     pla1.print(plateau.getwin());
 	  }
 
-	  
+
 	  break;
 	case KEY_RIGHT:
 	  {
@@ -139,8 +139,8 @@ void jeu(options opt){
 		 //maBille.setX(maBille.getX()+1);
 		pla1.setx((pla1.getx())+1);
 	       }
-	     
-	     
+
+
 	     //maBille.setDirDepart(Bille::GAUCHE);
 	     //prints
 	     //maBille.print(plateau.getwin());
@@ -154,23 +154,26 @@ void jeu(options opt){
 	  menu.setCouleurBordure(plateau.getCouleurBordure());
 	  plateau.setCouleurBordure(tmp);
 	  break;
-	  
+
 	}
       J.addScore(1);
       //le delay
       sleep_for(milliseconds(vitesse));
       maBille.effacePrintBille(plateau.getwin());
       maBille.avancer();
-      //maBille.contactBrique(&tab);
+
+      maBille.contactBrique(&tab,plateau.getwin());
       maBille.contactRaquette(pla1.getx() , pla1.getx()+pla1.getlongr() , pla1.gety());
       maBille.contactBords(plateau.getLargeur() ,plateau.getHauteur());
+        tab.printTableauBriques(plateau.getwin());
+
     }
-  
+
   //---------------------------finBoucle de jeu--------------------------//
   highScore high;
   if(high.estUnHighScore(J.getScore()))
     high.mettreNouveauHighScore(J.getScore(),J.getNomJ());
-  
+
   high.pop(plateau);
 
 }
@@ -200,16 +203,16 @@ void myprogram(){
   //std::string str= "hola \n " + std::to_string(m);
   //mainmenu.popup(str);
 
- 
+
   //----------------------------MENU-START--------------------------------//
 
   while(1)
     {
       //   box(mainmenu  ,0 , 0);
-    
+
       mainmenu.updateframe();
 
-      
+
       for(int i = 0 ; i<3 ; i++)
 	{
 	  if(i==highlight)
@@ -219,7 +222,7 @@ void myprogram(){
 	  wattroff(mainmenu.getwin() , A_REVERSE);
 	}
       choice = wgetch(mainmenu.getwin());
-      
+
       switch(choice)
 	{
 	case KEY_UP:
@@ -232,12 +235,12 @@ void myprogram(){
 	  if (highlight == 3)
 	    highlight = 2;
 	  break;
-	  
+
 	default:
 	  break;
-	  
+
 	}
-      
+
       if(choice == 10)
 	{
 	  switch(highlight)
@@ -250,7 +253,7 @@ void myprogram(){
 	      break;
 	    case 2:
 	      break;
-	      
+
 	    }
 	}
       werase(mainmenu.getwin());
@@ -260,7 +263,7 @@ void myprogram(){
       }
 
     }
-  
+
   //----------------------------MENU-FIN--------------------------------//
 
 }

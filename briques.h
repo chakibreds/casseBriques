@@ -3,23 +3,23 @@
 #include"window.h"
 class Brique
 {
- private: 
-  char corp; 
+ private:
+  char corp;
   unsigned int resistance;
   unsigned int L;            // L la hauteur de la brique (taille en y)
   unsigned int l;            // l la largeur de la brique (taille en x)
   unsigned int x;            // x et y position du coin EN HAUT A GAUCHE
   unsigned int y;
-  
+
   Color couleur;
  public:
-  //largeur L=hauteur 
-  //longueur l 
-  Brique(); 
+  //largeur L=hauteur
+  //longueur l
+  Brique();
   Brique(char corp , Color couleur,int y, int x , int L, int l,int resistance);
   Brique(const Brique &b);
-  
-  unsigned int getL()const; 
+
+  unsigned int getL()const;
   unsigned int getl()const;
   unsigned int getX()const;
   unsigned int getY()const;

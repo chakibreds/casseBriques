@@ -1,12 +1,12 @@
 #include<iostream>
 #include <cstdlib>
 #include "briques.h"
-using namespace std; 
+using namespace std;
 
-Brique::Brique():corp(' '),couleur(WRED),L(2),l(10),x(0),y(0),resistance(2)
+Brique::Brique():corp(' '),couleur(WRED),L(2),l(10),x(0),y(0),resistance(3)
 {
-  
-} 
+
+}
 Brique::Brique(char corp,Color couleur,int y, int x , int L, int l,int resistance):corp(corp),couleur(couleur),L(L),l(l),x(x),y(y),resistance(resistance)
 {}
 
@@ -25,7 +25,7 @@ unsigned int Brique::getResistance()const
 }
 unsigned int Brique::getL()const
 {
-  return L; 
+  return L;
 }
 unsigned int Brique::getl()const
 {
@@ -37,7 +37,7 @@ unsigned int Brique::getX()const
 }
 unsigned int Brique::getY()const
 {
-  return y; 
+  return y;
 }
 void Brique::setL(unsigned int L)
 {
@@ -45,7 +45,7 @@ void Brique::setL(unsigned int L)
 }
 void Brique::setl(unsigned int l)
 {
-  this->l=l; 
+  this->l=l;
 }
 void Brique::setX(unsigned int x)
 {
@@ -53,11 +53,13 @@ void Brique::setX(unsigned int x)
 }
 void Brique::setY(unsigned int y)
 {
-  this->y=y; 
+  this->y=y;
 }
 
 
-void Brique::setResistance(unsigned int r){resistance = r;};
+void Brique::setResistance(unsigned int r){
+
+  resistance = r;}
 void Brique::setCorp(char c){corp = c;}
 void Brique::setColor(Color col){couleur = col;}
 
@@ -66,10 +68,10 @@ void Brique::setColor(Color col){couleur = col;}
 
 void Brique::printBrique(WINDOW *w)
 {
-  
-  if(resistance==1) couleur=WYELLOW;
-  if(resistance==3) couleur=WRED;
-  if(resistance==2) couleur=WGREEN;
+  if(resistance<=0) couleur=WBLUE;
+  if(resistance==2) couleur=WYELLOW;
+  if(resistance==1) couleur=WRED;
+  if(resistance==3) couleur=WGREEN;
   std::string s(l,corp);
 
 
@@ -90,9 +92,9 @@ void Brique::printVide(WINDOW *w)
 {
   std::string s(l,' ');
   for(int i = 0 ; i<L ; i++){
-    
+
     mvwprintw(w,y+i,x,s.c_str());
-    
+
   }
   wrefresh(w);
   refresh();

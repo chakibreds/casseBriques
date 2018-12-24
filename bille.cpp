@@ -33,8 +33,8 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
         return maDirection;
     }
 
-    
-    
+
+
 //    Setters
     void Bille::setX(int x) {
         posX=x;
@@ -54,10 +54,10 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
     void Bille::setDirDepart(DirectionDepart dir){
         maDirection=dir;
     }
-    
-    
-    
-    
+
+
+
+
     void Bille::depart(){
         this->setDirY(-1);
         if (maDirection==Bille::GAUCHE){
@@ -67,12 +67,12 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
             this->setDirX(1);
         }
     }
-    
+
     void Bille::avancer(){
         posX=posX+directionX;
         posY=posY+directionY;
     }
-    
+
     void Bille::changerTrajectoire(int angle){
         if (angle==0){
             directionY=(-1)*(this->getDirY());
@@ -85,7 +85,7 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
             directionX=(-1)*(this->getDirX());
         }
     }
-    
+
     void Bille::contactBords(int tailleX, int tailleY){
         if ((posX+directionX==tailleX)||(posX+directionX<0)){
             (this->changerTrajectoire(90));
@@ -94,22 +94,25 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
             (this->changerTrajectoire(0));
         }
     }
-    
+
     void Bille::contactRaquette(int debutRaquette, int finRaquette, int yRaquette){
         if((posX+directionX<=finRaquette && posX+directionX>=debutRaquette)&&(posY+directionY==yRaquette)){
             this->changerTrajectoire(0);
         }
     }
-    
+
     bool Bille::billeDansBrique(Brique uneBrique) const{    // renvoie (bille sera dans brique)
-        return(((posX+directionX>=uneBrique.getX() && posX+directionX<uneBrique.getX()+uneBrique.getl()) && (posY+directionY>=uneBrique.getY() && posY+directionY<uneBrique.getY()+uneBrique.getL())));
+        return(((posX+directionX>=uneBrique.getX() && posX+directionX<=uneBrique.getX()+uneBrique.getl()) && (posY+directionY>=uneBrique.getY() && posY+directionY<=uneBrique.getY()+uneBrique.getL())));
     }
-    
-    void Bille::contactBrique(tableauBriques *tabBriques){
+
+    void Bille::contactBrique(tableauBriques *tabBriques,WINDOW *w){
         int nbrBriques=tabBriques->getTaille();
         for (int i=0;i<nbrBriques;i++){
             if (billeDansBrique(tabBriques->at(i))){
-                if ((posX==tabBriques->at(i).getX()-1 && posY==tabBriques->at(i).getY()+tabBriques->at(i).getL()+1) || (posX==tabBriques->at(i).getX()+tabBriques->at(i).getl()+1 && posY==tabBriques->at(i).getY()-1) || (posX==tabBriques->at(i).getX()+tabBriques->at(i).getl()+1 && posY==tabBriques->at(i).getY()+tabBriques->at(i).getL()+1) || (posX==tabBriques->at(i).getX()-1 && posY==tabBriques->at(i).getY()-1)){
+                if ((posX==tabBriques->at(i).getX()-1 && posY==tabBriques->at(i).getY()+tabBriques->at(i).getL()+1)
+                || (posX==tabBriques->at(i).getX()+tabBriques->at(i).getl()+1 && posY==tabBriques->at(i).getY()-1)
+                || (posX==tabBriques->at(i).getX()+tabBriques->at(i).getl()+1 && posY==tabBriques->at(i).getY()+tabBriques->at(i).getL()+1)
+                || (posX==tabBriques->at(i).getX()-1 && posY==tabBriques->at(i).getY()-1)){
                     this->changerTrajectoire(45);
                 }
                 else if (posX==tabBriques->at(i).getX()+tabBriques->at(i).getl()+1 || posX==tabBriques->at(i).getX()-1){
@@ -119,17 +122,19 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
                     this->changerTrajectoire(0);
                 }
                 tabBriques->at(i).setResistance(tabBriques->at(i).getResistance()-1);
+               if (tabBriques->at(i).getResistance()==0) {tabBriques->at(i).printVide(w);tabBriques->supprimerBrique(i);}
+
             }
         }
     }
-    
+
     void Bille::print(WINDOW* w) const{
         std::string x(1,icone);
         mvwprintw(w,posY,posX,x.c_str());
         wrefresh(w);
         refresh();
     }
-    
+
     void Bille::effacePrintBille(WINDOW* w) const{
         std::string x(1,' ');
         mvwprintw(w, posY, posX, x.c_str());
