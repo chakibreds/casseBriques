@@ -15,5 +15,6 @@ $(PROGNAME): $(SOURCES:.cpp=.o)
 
 clean :
 	@rm $(SOURCES:.cpp=.o) -rvf
+	@rm highScore.txt
 mrproper : clean
 	@rm $(PROGNAME) -rvf

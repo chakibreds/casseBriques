@@ -10,7 +10,7 @@ unsigned int joueur::getlvl() const{return lvl;}
 unsigned int joueur::getScore() const{return score;}
 std::string joueur::getNomJ() const { return nomJ;}
 
-   
+
 void joueur::setNbVies(unsigned int x){nbVies = x;}
 void joueur::setlvl(unsigned int x){lvl = x;}
 void joueur::setScore(unsigned int x){score = x;}
@@ -20,8 +20,8 @@ void joueur::printStats(WINDOW *w)const{
   std::string Vies = std::to_string(nbVies);
   std::string Lvl = std::to_string(lvl);
   std::string Score = std::to_string(score);
-  
-  
+
+
   mvwprintw(w,2,1,"Nom Joueur : ");
   mvwprintw(w,2,14,nomJ.c_str());
   mvwprintw(w,3,1,"Vies restantes : ");
@@ -30,7 +30,7 @@ void joueur::printStats(WINDOW *w)const{
   mvwprintw(w,4,9,Lvl.c_str());
   mvwprintw(w,5,1,"Score : ");
   mvwprintw(w,5,9,Score.c_str());
-  
+
   wrefresh(w);
   refresh();
 }

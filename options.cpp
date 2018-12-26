@@ -10,7 +10,7 @@ options::options(){
   hauteurJeu = 24;
   longeurJeu = 80;
   longeurPlatf = 14;
-  vitesseJeu = 17;
+  vitesseJeu = 50;
 }
 
 options::options(unsigned int h , unsigned int l , unsigned int longp) : hauteurJeu(h), longeurJeu(l) , longeurPlatf(longp){}
@@ -32,7 +32,7 @@ void options::nettoie(std::string &str){
 
   //substr(deb , longeur)
   str = str.substr(beg , end - beg + 1);
-  
+
 }
 
 bool options::findCleVal(std::string &line , std::string &cle , std::string &valeur){
@@ -44,12 +44,12 @@ bool options::findCleVal(std::string &line , std::string &cle , std::string &val
   //npos plus ou moins la meme chose que EOF pour les strings
   if(pos == std::string::npos){
     //a finir, exemple im maque des ':'
-   
+
 
     Window w(hauteurJeu , longeurJeu , 0 , 0 , 0 );
     w.popup("ERREUR Le fichier est mal formé, TERMINATE");
-    stopProgramX(); 
-    
+    stopProgramX();
+
     std::terminate();
   }
 
@@ -58,12 +58,12 @@ bool options::findCleVal(std::string &line , std::string &cle , std::string &val
   valeur = line.substr(pos + 1);
   nettoie(cle);
   nettoie(valeur);
-  
+
   return true;
 
 }
 void options::TraiteOption(const std::string &cle , const std::string &valeur, size_t num_ligne){
-  
+
   //atoi str to int
   if (cle == "longeurPlatf")
     {
@@ -103,7 +103,7 @@ void options::loadConfig(std::string file){
 	  if(findCleVal(line , cle , valeur))
 	    TraiteOption(cle,valeur,num_ligne);
 	}
-      
+
       num_ligne++;
     }
   input.close();
@@ -134,14 +134,14 @@ void options::menu() {
   //    y  x
   std::string T[5][3];
   std::string choices[5] = {"option1","Load Fichier config","Vitesse : plus petit = plus vite","longeur plataforme","Exit"};
-  
+
   //faire le tab pour me menu
   for(int i = 0 ; i<5 ; i++)
     {
-      
+
       for(int j = 0 ; j<3 ; j++)
 	{
-	  
+
 	  if(! (i==4))
 	    {
 	      switch(j)
@@ -170,19 +170,19 @@ void options::menu() {
 		case 2:
 		  T[i][j] = "---";
 		  break;
-		}  
+		}
 	    }
 	}
-      
+
     }
-  
+
   int choice;
   int highlight = 0;
   int highlight2 = 0;
 
   while(1)
     {
-     
+
       //print le tab
       for(int i = 0 ; i<5 ; i++)
 	{
@@ -208,12 +208,12 @@ void options::menu() {
 		 break;
 	       }
 	   }
-	  
-	}
-      
-      
 
-      
+	}
+
+
+
+
       choice = wgetch(menu.getwin());
       //changer le highlight  c-a-d changer l'indice
       switch(choice)
@@ -233,7 +233,7 @@ void options::menu() {
 	  if (highlight2 == -1)
 	    highlight2 = 0;
 	  break;
-	  
+
 	case KEY_RIGHT:
 	  highlight2++;
 	  if (highlight2 == 3)
@@ -251,7 +251,7 @@ void options::menu() {
 	      break;
 	    case 1:
 	      {
-	
+
 		switch(highlight2)
 		  {
 		  case 0:
@@ -269,12 +269,12 @@ void options::menu() {
 	      }
 	    case 2:
 	      {
-		
+
 		switch(highlight2)
 		  {
 		  case 0:
 		    {
-		      
+
 		      if(vitesseJeu == 1)
 			{
 			  std::string message = "Vitesse maximal \n vitesse = " + std::to_string(vitesseJeu);
@@ -286,7 +286,7 @@ void options::menu() {
 			  std::string message = "Vitesse augmenté \n nouvelle vitesse = " + std::to_string(vitesseJeu);
 			  menu.popupTimer(message , 1500);
 			}
-		      
+
 		    }
 		    break;
 		  case 1:
@@ -303,7 +303,7 @@ void options::menu() {
 	      }
 	    case 3:
 	      {
-		
+
 		switch(highlight2)
 		  {
 		  case 0:
@@ -341,8 +341,8 @@ void options::menu() {
 	  break;
       }
     }
-  
-  
-  
+
+
+
 }
 //-------------------------------------fin menu----------------------//

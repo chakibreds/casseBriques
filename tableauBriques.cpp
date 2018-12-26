@@ -97,11 +97,11 @@ tableauBriques::tableauBriques(size_t _taille , unsigned int _decalBriquesX, uns
 }
 //--------------------------fin constructeurs-------------------------------------------//
 // supprimer une brique
-void tableauBriques::supprimerBrique(size_t i)
+void tableauBriques::supprimerBrique(int i)
 {
   for(int j = i ; j < taille ; j++)
   {
-    data[i]=data[i+1];
+    data[j]=data[j+1];
   }
   taille--;
 }

@@ -45,7 +45,7 @@ class tableauBriques{
   //destructeur
   //~tableauBriques();
 
-  void supprimerBrique(size_t i);
+  void supprimerBrique(int i);
   //-------lecture
   size_t getTaille() const;
   size_t getAlloc() const;

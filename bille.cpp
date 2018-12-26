@@ -9,7 +9,7 @@
 Bille::Bille() : posX(0), posY(0), directionX(0), directionY(0), icone('o'), maDirection(DROITE){
 }
 
-Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDebut): posX(x), posY(y), directionX(dirX), directionY(dirY), icone(icon), maDirection(dirDebut){
+Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDebut,float vitesse): posX(x), posY(y), directionX(dirX), directionY(dirY), icone(icon), maDirection(dirDebut),vitesse(vitesse){
 }
 
 
@@ -31,6 +31,10 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
     }
     Bille::DirectionDepart Bille::getDirDepart() const{
         return maDirection;
+    }
+    float Bille::getVitesse() const
+    {
+      return vitesse;
     }
 
 
@@ -54,23 +58,29 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
     void Bille::setDirDepart(DirectionDepart dir){
         maDirection=dir;
     }
+    void Bille::setVitesse(float vit)
+    {
+
+      vitesse=vit;
+
+    }
 
 
 
 
     void Bille::depart(){
-        this->setDirY(-1);
+        this->setDirY(-vitesse);
         if (maDirection==Bille::GAUCHE){
-            this->setDirX(-1);
+            this->setDirX(-vitesse);
         }
         if (maDirection==Bille::DROITE){
-            this->setDirX(1);
+            this->setDirX(vitesse);
         }
     }
 
     void Bille::avancer(){
-        posX=posX+directionX;
-        posY=posY+directionY;
+        posX=posX+directionX*vitesse;
+        posY=posY+directionY*vitesse;
     }
 
     void Bille::changerTrajectoire(int angle){
@@ -105,7 +115,7 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
         return(((posX+directionX>=uneBrique.getX() && posX+directionX<=uneBrique.getX()+uneBrique.getl()) && (posY+directionY>=uneBrique.getY() && posY+directionY<=uneBrique.getY()+uneBrique.getL())));
     }
 
-    void Bille::contactBrique(tableauBriques *tabBriques,WINDOW *w){
+    void Bille::contactBrique(tableauBriques *tabBriques,WINDOW *w,joueur *J){
         int nbrBriques=tabBriques->getTaille();
         for (int i=0;i<nbrBriques;i++){
             if (billeDansBrique(tabBriques->at(i))){
@@ -121,8 +131,11 @@ Bille::Bille(int x, int y, int dirX, int dirY, char icon, DirectionDepart dirDeb
                 else if (posY==tabBriques->at(i).getY()+tabBriques->at(i).getL()+1 || posY==tabBriques->at(i).getY()-1){
                     this->changerTrajectoire(0);
                 }
+
                 tabBriques->at(i).setResistance(tabBriques->at(i).getResistance()-1);
-               if (tabBriques->at(i).getResistance()==0) {tabBriques->at(i).printVide(w);tabBriques->supprimerBrique(i);}
+               if (tabBriques->at(i).getResistance()==0) {tabBriques->at(i).printVide(w);
+               tabBriques->supprimerBrique(i);J->addScore(3);}
+                else {tabBriques->printTableauBriques(w);J->addScore(1);}
 
             }
         }

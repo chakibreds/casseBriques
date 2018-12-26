@@ -68,7 +68,6 @@ void Brique::setColor(Color col){couleur = col;}
 
 void Brique::printBrique(WINDOW *w)
 {
-  if(resistance<=0) couleur=WBLUE;
   if(resistance==2) couleur=WYELLOW;
   if(resistance==1) couleur=WRED;
   if(resistance==3) couleur=WGREEN;
