@@ -13,7 +13,7 @@ float platf::getVitesse() const
 }
 bool platf::contactmurG(int w) const {
   //w = with window
-  return posx > 0 ;
+  return posx>0 ;
 }
 bool platf::contactmurD(int w) const {
   //w = with window

@@ -42,7 +42,7 @@ void jeu(options opt){
   //-----------------------Joueur----------------------//
   //x,y
   infoJoueur.print(((infoJoueur.getLargeur())/2)-5,0,"---STATS---",WYELLOW);
-  joueur J( "Bob", 100 , 1 , 0);
+  joueur J( "Bob", 10 , 1 , 0);
   J.printStats(infoJoueur.getwin());
 
   //----------------------fin Joueur-----------------------------//
@@ -121,6 +121,14 @@ void jeu(options opt){
 		 //maBille.setX(maBille.getX()-1);
 		pla1.setx((pla1.getx())-1*pla1.getVitesse());
 	       }
+         else
+         {
+           pla1.printVide(plateau.getwin());
+           pla1.setx(0);
+           pla1.print(plateau.getwin());
+
+
+         }
        if(maBille.getVitesse()==0){
 
          maBille.effacePrintBille(plateau.getwin());
@@ -149,6 +157,11 @@ void jeu(options opt){
 		 //maBille.setX(maBille.getX()+1);
 		pla1.setx((pla1.getx())+1*pla1.getVitesse());
 	       }
+         else{
+           pla1.printVide(plateau.getwin());
+           pla1.setx(plateau.getLargeur()-pla1.getlongr());
+           pla1.print(plateau.getwin());
+         }
 	   //maBille.effacePrintBille(plateau.getwin());
      if(maBille.getVitesse()==0){
 
@@ -212,7 +225,9 @@ void jeu(options opt){
       maBille.contactBords(plateau.getLargeur() ,plateau.getHauteur());
       if(tab.getTaille()==0)
       {
+        J.setScore(J.getScore()+J.getNbVies());
         ch='q';
+
 
       }
 
