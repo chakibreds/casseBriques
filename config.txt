@@ -1,6 +1,6 @@
 #SQDSQdsqD
 #FQDFdsqf##########################
 #longeurPlatf : taille # para cambiar el tamano de la pltf
-longeurPlatf : 2 
+longeurPlatf : 6 
 #vitesse en ms
 vitesseJeu : 50

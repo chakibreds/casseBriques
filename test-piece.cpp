@@ -42,7 +42,7 @@ void jeu(options opt){
   //-----------------------Joueur----------------------//
   //x,y
   infoJoueur.print(((infoJoueur.getLargeur())/2)-5,0,"---STATS---",WYELLOW);
-  joueur J( "Bob", 10 , 1 , 0);
+  joueur J( "Bob", 5 , 1 , 0);
   J.printStats(infoJoueur.getwin());
 
   //----------------------fin Joueur-----------------------------//
